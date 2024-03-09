@@ -1,0 +1,85 @@
+---
+title: "Présentation librairie"
+author: "Cassandre Orhan"
+date: "2024-03-09"
+categories: [news, code, analysis]
+---
+
+## Librairie olympicsWeather
+
+Le package olympicsWeather est une bibliothèque R qui fournit des fonctionnalités pour accéder aux données météorologiques des sites où se dérouleront les Jeux olympiques 2024 à Paris.
+
+### Introduction
+
+Le package olympicsWeather offre une manière pratique d'accéder aux données météorologiques des Jeux olympiques pour les analyses et la visualisation. Il contient des fonctionnalités pour récupérer les données météorologiques à partir de sources fiables et les manipuler dans un format adapté à l'analyse.
+
+### Installation
+
+Pour installer le package olympicsWeather depuis GitHub, vous pouvez utiliser le package `remotes`. Voici les étapes à suivre :
+
+```{r, message = FALSE}
+remotes::install_github("Cassandreorhan/olympicsWeather")
+```
+
+Le package est à présent installé, dans la suite nous allons découvrir pourquoi et comment l'utiliser.
+
+### Prévision pour le Stade de France
+
+Ce package olympicsWeather peut être utile si vous souhaiter obtenir les prévisons météo du Stade de France pour une semaine, du 9 mars au 15 mars 2024. Dans un premier temps, il faut appeler la librairie du package :
+
+```{r, include = TRUE, warning = FALSE}
+library(olympicsWeather)  
+```
+
+Ensuite, nous pouvons commencer à l'utiliser, donc on appelle la fonction "get_weather_forecast" qui permet d'obtenir dans un tableau les prévision météos selon la date/heure, la température en Celsius, la température ressentie, les précipitations et les probabilités de précipitation.
+
+```{r,message = FALSE}
+prevision_stade_france <- olympicsWeather::get_weather_forecast("Stade de France")
+knitr::kable(head(prevision_stade_france))
+```
+
+Afin de mieux visualiser notre prévision, nous pouvons faire appel à une autre fonction du package "visualize_weather_forecast", elle prend en entrée la localisation souhaitée et retourne deux pages de représentation visuelle selon les tempétatures et les précipitations.
+
+```{r,message = FALSE }
+visualize_weather_forecast("Stade de France")
+```
+
+Ainsi, le stade de france enregistrera des températures fluctuantes durant cette semaine avec un pic de chaleur le 13 mars d'environ 18 degrés Celsius. Concernant les précipitations, la probabilité d'avoir de la pluie le 9 mars à 18h est forte, 94% mais la pluviométrie la plus importante sera le 10 mars entre 16h et 17h puisqu'on attend 1,3 cm de précipitation.
+
+## Prévision pour Tahiti
+
+Maintenant, si vous souhaitez obtenir les prévisions météos pour Tahiti qui accueillera en discipline olympique les épreuves de surf, voici comment vous pouvez procéder.
+
+Dans un premier temps, de la même façon que pour le stade de France, vous pouvez utiliser la fonction "get_weather_forecast" pour obtenir les prévisions sous forme de tableau.
+
+```{r,message = FALSE}
+prevision_tahiti <- get_weather_forecast("Tahiti")
+knitr::kable(head(prevision_tahiti))
+```
+
+Nous pouvons à présent utiliser la fonction "visualize_weather_forecast" afin de visualiser graphiquement nos prévisions.
+
+```{r,message = FALSE}
+visualize_weather_forecast("Tahiti")
+```
+
+Ainsi, Tahiti enregistrera des températures fluctuantes durant cette semaine avec un pic de chaleur le 13 mars d'environ 18,6 degrés celsius. Concernant les précipitations, la probabilité d'avoir de la pluie le 10 mars à 3h est forte, 100et c'est également l'heure où la pluviométrie sera la plus importante puisqu'on attend 1,9 cm de précipitation à cette date.
+
+### Pour les coordonnées GPS 43.276703, 5.334791
+
+Enfin, si vous souhaitez obtenir des prévisions météos des coordonnées GPS avec comme exemple les coordonnées 43.276703, 5.334791 , voici comment vous pouvez procéder.
+
+Dans un premier temps, de la même façon que pour les prévisions précedentes, vous pouvez utiliser la fonction "get_weather_forecast" pour obtenir les prévisions sous forme de tableau.
+
+```{r}
+prevision_lat_long<-get_weather_forecast(c(43.276703, 5.334791))
+knitr::kable(head(prevision_lat_long))
+```
+
+Nous pouvons à présent utiliser la fonction "visualize_weather_forecast" afin de visualiser graphiquement nos prévisions.
+
+```{r}
+visualize_weather_forecast(c(43.276703, 5.334791))
+```
+
+Ainsi, ces coordonnées GPS, qui correspondent au Parc national des Calanques à Marseille, enregistreront des températures fluctuantes durant cette semaine avec un pic de chaleur le 15 mars d'environ 17 degrés Celsius. Concernant les précipitations, la probabilité d'avoir de la pluie le 9 mars de 15h à minuit est forte, 100% et c'est égalementà cette date que la pluviométrie sera la plus importante puisqu'on attend 9,8 cm de précipitation entre 22h et 23H .

@@ -1,0 +1,221 @@
+---
+title: "Les jeux olympiques : position des sites"
+author: "Cassandre Orhan"
+date: "2024-03-09"
+categories: [news, code, analysis]
+---
+
+L'objectif de ce rapport est de travailler sur la répartition et la position des sites des jeux olympiques et paralympiques.
+
+## Librairies
+
+Dans le cadre de ce rapport, nous nous appuierons sur des bibliothèques disponibles dans le CRAN :
+
+```{r, include=TRUE, warning=FALSE,message = FALSE}
+library(tidyverse) 
+library(dplyr)
+library(readxl) 
+library(geosphere)
+```
+
+## Présentation de la base de données
+
+Nous disposons d'une base de données fournissant des informations sur les sites olympiques et paralympiques de la région parisienne.
+
+```{r}
+data_ex <- read.csv2("~/R avancé/paris-2024-sites-olympiques-et-paralympiques-franciliens.csv") 
+
+knitr::kable(head(data_ex))
+knitr::kable(names(data_ex))
+```
+
+Cette base de données comporte quatre colonnes de type texte :
+
+-   "Geo_point" : Cette colonne représente le point géographique du site olympique.
+
+-   "Nom" : Il s'agit du nom du site.
+
+-   "Site_olympiques_paralympiques" : Cette colonne catégorise le nom du site comme étant dédié aux Jeux Olympiques, aux Jeux Paralympiques ou aux deux.
+
+-   "Sports" : Correspondant aux sports proposés sur le site.
+
+## Sites olympiques
+
+Dans un premier temps, nous nous concentrons sur les sites qui accueilleront les disciplines olympiques. Pour ce faire, nous avons filtré les données pour identifier les sites olympiques, puis nous avons examiné quels sites présentaient exclusivement les Jeux Olympiques et ceux qui accueillaient à la fois les Jeux Paralympiques et Olympiques.
+
+```{r}
+discipline_olympique<-data_ex |> 
+  filter(sites_olympiques_paralympiques != "Site paralympique" & !sites_olympiques_paralympiques=="") |> 
+  select(nom, sites_olympiques_paralympiques)
+
+
+sites_multiples_jeux <- subset(data_ex, grepl(",",sites_olympiques_paralympiques))
+
+discipline_olympique_exclusivement <- data_ex |> 
+  filter(data_ex$sites_olympiques_paralympiques=="Site olympique") |> 
+  select(nom, sites_olympiques_paralympiques)
+
+knitr::kable(head(discipline_olympique))
+knitr::kable(head(discipline_olympique_exclusivement))
+count(sites_multiples_jeux)
+```
+
+Donc, parmi les 26 sites répertoriés comme des sites pour les Jeux Olympiques, nous avons :
+
+-   10 sites exclusivement dédiés aux Jeux Olympiques.
+
+-   16 sites qui serviront également aux Jeux Paralympiques.
+
+## Sites paralympiques
+
+Ensuite, notre attention se porte sur les sites où se dérouleront des disciplines paralympiques. De la même manière, nous avons trié les données pour identifier les sites qui accueilleront exclusivement les Jeux Paralympiques.
+
+```{r}
+
+discipline_paralympique_exclusivement <- data_ex |> 
+  filter(data_ex$sites_olympiques_paralympiques=="Site paralympique") |> 
+  select(nom, sites_olympiques_paralympiques)
+
+knitr::kable(head(discipline_paralympique_exclusivement))
+count(sites_multiples_jeux)
+```
+
+De la même façon, parmi les 19 sites répertoriés comme des sites pour les Jeux Paralympiques :
+
+-   3 sites sont exclusivement dédiés aux Jeux Paralympiques.
+
+-   16 sites serviront également aux Jeux Olympiques.
+
+## Disciplines sportives
+
+Ensuite, nous avons examiné si certains sites accueilleront plusieurs disciplines en filtrant les données pour identifier les sites où plusieurs sports sont présentés, séparés par une virgule.
+
+```{r}
+sites_multiples_disciplines <- subset(data_ex, grepl(",",sports))
+
+sites_multiples_disciplines <- sites_multiples_disciplines |> 
+  select(nom,sports)
+
+dim(sites_multiples_disciplines)
+```
+
+Ainsi, nous avons identifié un total de 19 sites qui accueilleront plusieurs disciplines sportives.
+
+## Discipline paralympiques
+
+Ensuite, nous avons cherché à déterminer quelles disciplines paralympiques seront présentées aux Jeux Olympiques. Pour ce faire, nous avons examiné les sports présentés, puis nous avons filtré les données en utilisant des mots-clés associés aux sports paralympiques, tels que "para" ou "fauteuil". Cette démarche nous permettra d'identifier les sites et les installations qui accueilleront des disciplines paralympiques,
+
+```{r}
+liste_sport<-(unlist(strsplit(data_ex$sports, ","))) 
+
+knitr::kable(head(unique(liste_sport)))
+
+mots_cles_paralympiques <- c("Para", "para", "fauteuil", "assis", "goalball", "cécifoot", "boccia")
+
+sports_paralympiques <- liste_sport[grep(paste(mots_cles_paralympiques, collapse = "|"), liste_sport, ignore.case = TRUE)]
+
+knitr::kable(sports_paralympiques)
+```
+
+Ainsi, sur un total de 60 sports répertoriés, nous avons identifié 23 disciplines paralympiques.
+
+## Site avec le plus de disciplines différentes
+
+Pour répondre à cette question, nous avons comptabilisé le nombre de sports séparés par une virgule sur chaque site, puis établi un classement pour identifier le site présentant le plus grand nombre de disciplines différentes.
+
+```{r}
+top_sites_disciplines <-data_ex |> 
+  mutate(nombre_sports_par_site = sapply(strsplit(sports, ","), length)) |>
+  arrange(desc(nombre_sports_par_site)) |> 
+  select(nom,sports)
+
+knitr::kable(head(top_sites_disciplines))
+```
+
+Les sites qui présenteront le plus de disciplines sont donc :
+
+-   Arena Bercy
+
+-   Arena Paris nord
+
+-   Stade de la Concorde
+
+-   Arena Champs de Mars
+
+-   Stade nautique
+
+-   Arena La Chapelle
+
+Ces sites se distinguent par leur capacité à accueillir un large éventail de disciplines sportives, ce qui en fait des centres névralgiques pour les compétitions olympiques et paralympiques.
+
+## Discipline sur le plus de sites
+
+Pour déterminer quelle discipline sera présente sur le plus de sites, nous avons repris la liste des sites et compté le nombre d'occurrences de chaque discipline. Cette analyse nous permettra d'identifier les sports les plus largement représentés parmi les installations olympiques et paralympiques.
+
+```{r}
+knitr::kable(names(which.max(table(liste_sport))))
+
+athletisme <- data_ex %>%
+  filter(str_detect(sports, "\\bAthlétisme\\b")) |> 
+  select(nom)
+
+knitr::kable(athletisme)
+```
+
+Ainsi, l'athlétisme sera présenté sur le plus grand nombre de sites, avec une participation à quatre endroits différents : Invalides, Stade de France, Pont d'Iéna et à l'Hôtel de ville de Paris.
+
+## Les deux sites les plus proches
+
+Afin d''obtenir les deux sites les plus proches géographiquement, nous avons d'abord séparé la colonne "Geo_point", représentant les points géographiques, en deux colonnes distinctes : "longitude" et "latitude". Ensuite, nous avons créé une matrice des distances entre chaque paire de sites, ce qui nous a permis d'obtenir la distance séparant chaque site de tous les autres. En trouvant le minimum de cette matrice, nous pouvons identifier les deux sites les plus proches géographiquement.
+
+```{r}
+data_ex <- data_ex |> 
+  separate(geo_point, into = c("longitude", "latitude"), sep = ",", convert = TRUE)
+
+distances <- distm(data_ex[, c("longitude", "latitude")]) 
+knitr::kable(head(distances))
+
+distance_min<-min(distances[distances > 0])
+
+plus_proches <- which(distances == distance_min, arr.ind = TRUE)
+
+site_1_proche<- data_ex[plus_proches[1,1],"nom"] 
+knitr::kable(site_1_proche)
+site_2_proche <-data_ex[plus_proches[1,2],"nom"]
+knitr::kable(site_2_proche)
+```
+
+Les deux sites les plus proches sont le stade BMX de Saint-Quentin-en-Yvelines et le Vélodrome national de Saint-Quentin-en-Yvelines avec une distance de 91,64 mètres.
+
+## Les deux sites les plus éloignés
+
+Pour déterminer les deux sites les plus éloignés, nous utilisons toujours la matrice des distances que nous avons créée précédemment. En identifiant les distances maximales dans cette matrice, nous pouvons identifier les deux sites les plus éloignés les uns des autres.
+
+```{r}
+distance_max<-max(distances[distances > 0])
+knitr::kable(distance_max)
+
+plus_éloignés <- which(distances == distance_max, arr.ind = TRUE)
+
+site_1_eloigne<- data_ex[plus_éloignés[1,1],"nom"] 
+knitr::kable(site_1_eloigne)
+site_2_eloigne <-data_ex[plus_éloignés[1,2],"nom"]
+knitr::kable(site_2_eloigne)
+
+```
+
+Aussi, les deux sites les plus éloignés sont la colline d'Elancourt et le Stade nautique avec une distance de 74388,55 mètres.
+
+## Barycentre de l'ensemble des sites
+
+Dans l'objectif d'investir dans les biens immobiliers, il faut calculer la longitude et la latitude moyennes des sites pour optimiser les recherches immobilières en vue des Jeux Olympiques. En obtenant ces coordonnées moyennes, vous pouvez déterminer le point central autour duquel se situent les sites. Cette approche peut vous aider à maximiser les opportunités d'investissement en vous concentrant sur des emplacements stratégiques qui offrent une accessibilité optimale aux sites olympiques et paralympiques.
+
+```{r, message = FALSE}
+longitude_moy<-mean(data_ex$longitude)
+latitude_moy<-mean(data_ex$latitude)
+
+barycentre <- tidygeocoder::reverse_geo(longitude_moy,latitude_moy)
+knitr::kable(barycentre)
+```
+
+Si un investisseur souhaite rechercher un bien immobilier placé au barycentre de l'ensemble des sites olympiques et paralympiques, le quartier de Chaillot dans le 16ème arrondissement de Paris pourrait être une excellente option. Situé au cœur de la capitale, ce quartier offre un accès facile et rapide à de nombreux sites sportifs importants.

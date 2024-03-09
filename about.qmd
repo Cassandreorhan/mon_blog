@@ -1,0 +1,21 @@
+---
+title: "Presentation"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://linkedin.com
+    - icon: github
+      text: Github
+      href: https://github.com
+---
+
+## Bienvenue sur mon blog !
+
+Je m'appelle Cassandre Orhan et je suis actuellement étudiante à l'IAE de Nantes, en première année de Master en Économétrie et Statistique.
+
+Ce projet a été réalisé dans le cadre d'un de mes cours, "R Avancé et Introduction à Git", enseigné par M. Nedellec. J'ai utilisé RStudio pour le développement et la gestion du code source, et vous pouvez retrouver les sources de ce projet sur mon GitHub.
+
+N'hésitez pas à explorer les différents projets que j'ai partagés sur ce sites. J'espère que vous trouverez des informations intéressantes et utiles !

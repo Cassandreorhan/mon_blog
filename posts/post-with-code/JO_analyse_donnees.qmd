@@ -1,0 +1,259 @@
+---
+title: "Les jeux olympiques : Analyse de données"
+author: "Cassandre Orhan"
+date: "2024-03-09"
+categories: [news, code, analysis]
+---
+
+L'objectif de ce projet est d'analyser les données des Jeux Olympiques afin de comprendre les performances des athlètes, l'évolution des disciplines et les tendances temporelles.
+
+## Librairies
+
+Dans le cadre de ce rapport, nous nous appuierons sur des bibliothèques disponibles dans le CRAN.
+
+```{r,include = TRUE, warning = FALSE, message = FALSE}
+library(stringr)
+library(lubridate)
+library(arrow)
+library(dplyr)
+library(tidyr)
+library(jsonlite)
+library(RSQLite)
+```
+
+## Préparation de la base de données
+
+Nous avons dans un premier temps cherché à Listez les fichiers présents dans le dossier data.
+
+```{r}
+knitr::kable(list.files("data/"))
+```
+
+Les fichiers présents dans le dossier data sont au nombres de quatre : data.sqlite ; olympics_athletes.json et tokyo_athletes.parquet.
+
+Les extensions des différents fichiers sont :
+
+-   `data.sqlite` : L'extension de ce fichier est `.sqlite`, ce qui indique qu'il s'agit d'une base de données SQLite.
+
+-   `olympics_athletes.json` : L'extension de ce fichier est `.json`, ce qui indique qu'il s'agit d'un fichier JSON.
+
+-   `tokyo_athletes.parquet` : L'extension de ce fichier est `.parquet`, ce qui indique qu'il s'agit d'un fichier au format Parquet.
+
+### .parquet
+
+Nous avons ensuite chercher à lire le fichier .parquet en utilisant la librairie arrow.
+
+```{r}
+tokyo <- arrow::read_parquet("data/tokyo_athletes.parquet")
+dim(tokyo)
+knitr::kable(names(tokyo))
+```
+
+Le fichier tokyo comprend 11085 données et 3 colonnes qui sont : "Name" , "NOC" et "Discipline"
+
+### .Json
+
+Ensuite nous avons chercher à lire le fichier le fichier .json en utilisant la librairie jsonlite.
+
+```{r}
+liste_fichier_json <- list.files("data/",pattern = "*.json", full.names = T)
+data_athletes <- fromJSON(liste_fichier_json)
+```
+
+### Connexion
+
+Le code suivant, liste les fichiers SQLite dans le dossier "data/", se connecte à chacun d'eux et récupère la liste des tables présentes dans chaque base de données SQLite, puis affiche les noms de ces tables.
+
+```{r}
+connexion<- dbConnect(RSQLite::SQLite(), list.files("data/",pattern = "*.sqlite", full.names = T))
+dbListTables(connexion)
+```
+
+Les tables présentes dans cette table sont olympics_athletes, tokyo_athletes, tokyo_medals et tokyo_teams.
+
+Créons à présent 2 tables avec dbWriteTable :
+
+```{r}
+dbWriteTable(connexion,"olympics_athletes",data_athletes,overwrite = TRUE)
+dbWriteTable(connexion,"tokyo_athletes",tokyo,overwrite=TRUE)
+```
+
+Analysons olympics_athletes :
+
+```{r}
+dbListFields(connexion, "olympics_athletes")
+```
+
+Les colonnes de la table "olympics_athletes" sont : "ID", "Name", "Sex", "Age", "Height", "Weight", "Team", "NOC", "Games", "City", "Sport", "Event", "Medal".
+
+Dans ces instructions, nous lisons la table "olympics_athletes" depuis la base de données, la convertissons en tibble et stockons le résultat.
+
+```{r}
+olympics_athletes <- dbReadTable(connexion, "olympics_athletes",data_athletes)
+olympics_athletes <- as_tibble(olympics_athletes)
+knitr::kable(head(olympics_athletes))
+```
+
+### Colonne "Sex"
+
+Dans cette instruction, nous convertissons la colonne "Sex" en variable catégorielle
+
+```{r}
+olympics_athletes <- olympics_athletes %>%
+  mutate(Sex = as.factor(Sex))
+```
+
+### Colonne Games
+
+Dans cette série d'instructions, nous scindons la colonne "Games" en deux colonnes distinctes, "Year" et "Season", puis nous ajoutons une colonne booléenne "isSummer" pour indiquer si les jeux sont d'été ou d'hiver, enfin nous supprimons la colonne "Season".
+
+```{r}
+olympics_athletes <- olympics_athletes %>%
+  separate(col = Games, into = c("Year", "Season"), sep = " ", convert = TRUE) %>%
+  mutate(isSummer = Season == "Summer") %>%
+  select(-Season)
+
+```
+
+## Moyenne d'âge
+
+Nous nous sommes ensuite intéressé à la moyenne d'âge pour chaque édition des JO d'été.
+
+```{r}
+moyenne_age_par_edition <- olympics_athletes %>%
+  filter(isSummer) %>%
+  group_by(Year) %>%
+  summarize(moyenne_age = mean(Age, na.rm = TRUE))
+
+edition_plus_jeune <- moyenne_age_par_edition %>%
+  filter(moyenne_age == min(moyenne_age, na.rm = TRUE))
+
+edition_plus_vieille <- moyenne_age_par_edition %>%
+  filter(moyenne_age == max(moyenne_age, na.rm = TRUE))
+
+knitr::kable(edition_plus_jeune)
+knitr::kable(edition_plus_vieille)
+```
+
+Nous apprenons ainsi que l'édition avec la moyenne d'âge la plus jeune était celle de 1896, avec un âge de 23 ans et l'édition avec la moyenne d'âge la plus âgé était celle de 1932, avec un âge de 30 ans.
+
+## Taille des athlètes
+
+Ce code supprime les lignes contenant des valeurs manquantes, puis il identifie la discipline sportive des athlètes féminines participant aux jeux d'été ayant la plus grande taille moyenne, en calculant la taille maximale pour chaque discipline. Enfin, il compte le nombre de fois où chaque discipline a été celle avec les athlètes les plus grandes dans chaque édition des jeux olympiques d'été. Ce code a été principalement réalisé avec le package tibble.
+
+```{r}
+olympics_athletes <- olympics_athletes %>%
+   drop_na()
+
+discipline_max_taille <- olympics_athletes %>%
+  filter(Sex == "F" & isSummer) %>%
+  group_by(Sport) %>%
+  summarize(max_taille = max(Height, na.rm = TRUE)) %>%
+  filter(max_taille == max(max_taille)) %>%
+  select(Sport)
+
+
+knitr::kable(discipline_max_taille)
+
+discipline_max_taille_par_edition <- olympics_athletes %>%
+  filter(Sex == "F") %>%
+  group_by(Year, Sport) %>%
+  summarize(max_taille = max(Height, na.rm = TRUE), .groups = "drop") %>%
+  group_by(Year) %>%
+  filter(max_taille == max(max_taille, na.rm = TRUE))
+
+
+knitr::kable(head(discipline_max_taille_par_edition))
+
+nombre_max_taille_par_discipline <- discipline_max_taille_par_edition %>%
+  count(Sport, name = "Nombre_total_éditions")
+
+total_par_discipline <- nombre_max_taille_par_discipline %>%
+  group_by(Sport) %>%
+  summarize(Total = sum(Nombre_total_éditions))
+total_par_discipline <- head(total_par_discipline[order(total_par_discipline$Total, decreasing = TRUE), ], 3)
+
+
+knitr::kable(total_par_discipline)
+```
+
+On constate que le basketball compte parmi les disciplines où les athlètes féminines sont les plus grandes, que le patinage artistique était la discipline présentant les athlètes les plus grandes en 1920, et que tout au long des différentes éditions, l'athlétisme et le basketball ont été les sports qui ont compté le plus grand nombre d'athlètes de grande taille."
+
+## Dates éditions
+
+Ce code extrait toutes les dates au format "jour mois année" présentes dans le texte et les stocke dans une liste appelée `dates`, puis affiche cette liste.
+
+```{r}
+
+texte <- "Les jeux olympiques d’été se déroulent normalement tous les 4 ans, durant les mois de Juillet et Août. Les jeux de Rio ont eu lieu du 5 Août 2016 au 20 Août 2016, ceux de Tokyo du 23 Juillet 2021 au 8 Août 2021, et ceux de Paris auront lieu du 26 Juillet 2024 au 11 Août 2024. Plus de 10000 athlètes sont attendus du monde entier à Paris."
+
+regex_date <- "\\d{1,2} (?:Janvier|Février|Mars|Avril|Mai|Juin|Juillet|Août|Septembre|Octobre|Novembre|Décembre) \\d{4}"
+
+dates <- str_extract_all(texte, regex_date)
+
+print(dates)
+```
+
+### Mois
+
+Ce code extrait les dates des éditions des Jeux Olympiques à partir d'un texte, puis remplace les noms des mois par leur numéro pour les rendre convertibles en date.
+
+```{r}
+
+dates_modifiees <- str_replace_all(texte, c("Janvier" = "01", "Février" = "02", "Mars" = "03", "Avril" = "04", 
+                                            "Mai" = "05", "Juin" = "06", "Juillet" = "07", "Août" = "08", 
+                                            "Septembre" = "09", "Octobre" = "10", "Novembre" = "11", "Décembre" = "12"))
+
+
+knitr::kable(dates_modifiees)
+```
+
+### Date
+
+Ce code extrait les dates des éditions des Jeux Olympiques à partir d'un texte modifié, puis les convertit en format de date (jour-mois-année).
+
+```{r}
+
+texte_modifie <- "Les jeux olympiques d’été se déroulent normalement tous les 4 ans, durant les mois de 07 et 08. Les jeux de Rio ont eu lieu du 5 08 2016 au 20 08 2016, ceux de Tokyo du 23 07 2021 au 8 08 2021, et ceux de Paris auront lieu du 26 07 2024 au 11 08 2024. Plus de 10000 athlètes sont attendus du monde entier à Paris."
+
+regex_date_bis <- "\\d{1,2} \\d{2} \\d{4}"
+
+dates <- str_extract_all(texte_modifie, regex_date_bis)
+
+dates_converties <- lapply(dates, function(date_str) dmy(date_str))
+
+dates_converties
+```
+
+### Différence entre les éditions
+
+Ce code calcule les différences en jours et en semaines entre les dates des Jeux Olympiques de Rio et Tokyo, ainsi que entre les dates des Jeux Olympiques de Tokyo et Paris.
+
+```{r}
+
+#différence en jours entre Rio et Tokyo
+jours_rio_tokyo <- difftime(dates_converties[[1]][3],dates_converties[[1]][2], units = "days")
+
+jours_rio_tokyo
+
+#différence en semaines
+semaines_rio_tokyo <- difftime(dates_converties[[1]][3],dates_converties[[1]][2], units = "weeks")
+
+semaines_rio_tokyo
+
+#différence en jours entre Tokyo et Paris
+jours_tokyo_paris <- difftime(dates_converties[[1]][5],dates_converties[[1]][4], units = "days")
+
+jours_tokyo_paris
+
+#différence en semaines
+semaines_tokyo_paris <- difftime(dates_converties[[1]][5],dates_converties[[1]][4], units = "weeks")
+
+semaines_tokyo_paris
+
+semaines_rio_tokyo
+```
+
+Ainsi, nous constatons que l'écart entre les Jeux Olympiques de Rio en 2016 et ceux de Tokyo en 2021 était de 1798 jours, soit environ 256,9 semaines entre le début et la fin de chaque édition. De manière similaire, l'intervalle entre les Jeux précédents de Tokyo et ceux de Paris en 2024 est de 1083 jours, équivalant à environ 154,7 semaines.
+
+L'intervalle entre les Jeux de Rio et ceux de Tokyo est presque 2 ans plus long que celui entre les Jeux de Tokyo et ceux de Paris.
