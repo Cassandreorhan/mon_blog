@@ -2,7 +2,6 @@
 title: "Les jeux olympiques : médailles des athlètes"
 author: "Cassandre Orhan"
 date: "2024-03-09"
-categories: [news, code, analysis]
 ---
 
 L'objectif de ce rapport est d'analyser les performances des athlètes aux Jeux Olympiques en termes d'éditions et de médailles remportées. Cette analyse nous permettra de comprendre les tendances historiques en matière de succès sportifs et d'identifier les pays dominants dans l'histoire des Jeux Olympiques.

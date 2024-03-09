@@ -2,7 +2,6 @@
 title: "Les jeux olympiques : position des sites"
 author: "Cassandre Orhan"
 date: "2024-03-09"
-categories: [news, code, analysis]
 ---
 
 L'objectif de ce rapport est de travailler sur la répartition et la position des sites des jeux olympiques et paralympiques.

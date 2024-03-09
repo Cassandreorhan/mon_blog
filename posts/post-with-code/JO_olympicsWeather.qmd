@@ -2,7 +2,6 @@
 title: "Les jeux olympiques : OlympicsWeather"
 author: "Cassandre Orhan"
 date: "2024-03-09"
-categories: [news, code, analysis]
 ---
 
 Ce package contient un ensemble de fonction permetant d'obtenir en temps réel les prévisions météo des sites olympiques en vu des JO.
