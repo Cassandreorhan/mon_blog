@@ -1,7 +1,7 @@
 ---
 title: "Les jeux olympiques : Analyse de données"
 author: "Cassandre Orhan"
-date: "2024-03-09"
+date: "2024-03-08"
 ---
 
 L'objectif de ce projet est d'analyser les données des Jeux Olympiques afin de comprendre les performances des athlètes, l'évolution des disciplines et les tendances temporelles.

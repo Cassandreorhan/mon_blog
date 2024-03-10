@@ -1,7 +1,7 @@
 ---
 title: "Les jeux olympiques : position des sites"
 author: "Cassandre Orhan"
-date: "2024-03-09"
+date: "2024-03-06"
 ---
 
 L'objectif de ce rapport est de travailler sur la répartition et la position des sites des jeux olympiques et paralympiques.
@@ -105,18 +105,18 @@ Ainsi, nous avons identifié un total de 19 sites qui accueilleront plusieurs di
 Ensuite, nous avons cherché à déterminer quelles disciplines paralympiques seront présentées aux Jeux Olympiques. Pour ce faire, nous avons examiné les sports présentés, puis nous avons filtré les données en utilisant des mots-clés associés aux sports paralympiques, tels que "para" ou "fauteuil". Cette démarche nous permettra d'identifier les sites et les installations qui accueilleront des disciplines paralympiques,
 
 ```{r}
-liste_sport<-(unlist(strsplit(data_ex$sports, ","))) 
+liste_sport<-(unlist(strsplit(data_ex$sports, ",")))
 
 knitr::kable(head(unique(liste_sport)))
 
-mots_cles_paralympiques <- c("Para", "para", "fauteuil", "assis", "goalball", "cécifoot", "boccia")
+mots_cles_paralympiques <- c("Para", "fauteuil", "assis", "Goalball", "Cécifoot", "Boccia")
 
-sports_paralympiques <- liste_sport[grep(paste(mots_cles_paralympiques, collapse = "|"), liste_sport, ignore.case = TRUE)]
+sports_paralympiques <- unique(liste_sport[grep(paste(mots_cles_paralympiques, collapse = "|"), liste_sport, ignore.case = TRUE)])
 
 knitr::kable(sports_paralympiques)
 ```
 
-Ainsi, sur un total de 60 sports répertoriés, nous avons identifié 23 disciplines paralympiques.
+Ainsi, sur un total de 60 sports répertoriés, nous avons identifié 21 disciplines paralympiques.
 
 ## Site avec le plus de disciplines différentes
 
@@ -175,6 +175,7 @@ distances <- distm(data_ex[, c("longitude", "latitude")])
 knitr::kable(head(distances))
 
 distance_min<-min(distances[distances > 0])
+knitr::kable(distance_min)
 
 plus_proches <- which(distances == distance_min, arr.ind = TRUE)
 

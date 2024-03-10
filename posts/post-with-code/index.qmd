@@ -1,7 +1,7 @@
 ---
 title: "Présentation librairie"
 author: "Cassandre Orhan"
-date: "2024-03-09"
+date: "2024-03-10"
 ---
 
 ## Librairie olympicsWeather
@@ -62,7 +62,7 @@ Nous pouvons à présent utiliser la fonction "visualize_weather_forecast" afin 
 visualize_weather_forecast("Tahiti")
 ```
 
-Ainsi, Tahiti enregistrera des températures fluctuantes durant cette semaine avec un pic de chaleur le 13 mars d'environ 18,6 degrés celsius. Concernant les précipitations, la probabilité d'avoir de la pluie le 10 mars à 3h est forte, 100et c'est également l'heure où la pluviométrie sera la plus importante puisqu'on attend 1,9 cm de précipitation à cette date.
+Ainsi, Tahiti enregistrera des températures fluctuantes durant cette semaine avec un pic de chaleur le 13 mars d'environ 18,6 degrés celsius. Concernant les précipitations, la probabilité d'avoir de la pluie le 10 mars à 3h est forte, 100% et c'est également l'heure où la pluviométrie sera la plus importante puisqu'on attend 1,9 cm de précipitation à cette date.
 
 ### Pour les coordonnées GPS 43.276703, 5.334791
 
