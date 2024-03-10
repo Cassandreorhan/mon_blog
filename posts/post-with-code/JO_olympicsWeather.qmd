@@ -8,7 +8,7 @@ Ce package contient un ensemble de fonction permetant d'obtenir en temps réel l
 
 Afin de realiser ce package nous avons utiliser la librairie `usethis`, il n'est pas nécessaire d'installer explicitement cette librairie car elle fait partie des librairies qui sont automatiquement installées lors de l'installation de R.
 
-Les exemples que nous allons utiliser dans ce package pour illustrer nos fonctions correspond au site olympique "Parc des princes" à Paris avec comme coordonnées géographique (48.841319, 2.253076)
+Les exemples inclus dans ce package pour illustrer les fonctions correspondent au site olympique "Parc des princes" à Paris avec comme coordonnée géographique (48.841319, 2.253076)
 
 ## Perform_request
 
@@ -29,5 +29,3 @@ Cette fonction, intitulée "Prévision météo des sites olympiques", permet de 
 ## visualize_weather_forecast
 
 Cette fonction, prend en entrée les résultats obtenus à partir de la fonction get_forecast et produit une sortie visuelle avec deux pages de représentation graphique, une page pour les graphiques sur les températures, donc température et température ressentie et une autres pages concernant les précipitations et les probabilités de précipitations.Les graphiques sont générés à partir des données de prévisions météorologiques pour un emplacement spécifié.
-
-Dans notre exemple, les graphiques nous donne des courbes de prévision pour le site olympique "Parc des princes" par jour du 9 au 15 mars 2024.

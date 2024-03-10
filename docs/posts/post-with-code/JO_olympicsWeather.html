@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Presentation</span></a>
+ <span class="menu-text">Présentation</span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools">
@@ -135,7 +135,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p>Ce package contient un ensemble de fonction permetant d’obtenir en temps réel les prévisions météo des sites olympiques en vu des JO.</p>
 <p>Afin de realiser ce package nous avons utiliser la librairie <code>usethis</code>, il n’est pas nécessaire d’installer explicitement cette librairie car elle fait partie des librairies qui sont automatiquement installées lors de l’installation de R.</p>
-<p>Les exemples que nous allons utiliser dans ce package pour illustrer nos fonctions correspond au site olympique “Parc des princes” à Paris avec comme coordonnées géographique (48.841319, 2.253076)</p>
+<p>Les exemples inclus dans ce package pour illustrer les fonctions correspondent au site olympique “Parc des princes” à Paris avec comme coordonnée géographique (48.841319, 2.253076)</p>
 <section id="perform_request" class="level2">
 <h2 class="anchored" data-anchor-id="perform_request">Perform_request</h2>
 <p>Ce code définit une fonction interne appelée <code>perform_request</code>, conçue pour récupérer des données brutes de prévisions météorologiques à partir d’une API en fournissant les coordonnées GPS d’un emplacement spécifique. La fonction utilise les coordonnées de latitude et de longitude pour effectuer une requête vers une URL API définie précédemment. Elle demande des données spécifiques telles que la température, la probabilité de précipitations, etc., sur une base horaire. Les données récupérées sont ensuite formatées et retournées sous forme de tibble, une structure de données de type tableau, pour une utilisation ultérieure. Des exemples d’utilisation sont inclus pour guider les utilisateurs sur la manière d’appeler cette fonction avec les bonnes coordonnées.</p>
@@ -153,7 +153,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="visualize_weather_forecast" class="level2">
 <h2 class="anchored" data-anchor-id="visualize_weather_forecast">visualize_weather_forecast</h2>
 <p>Cette fonction, prend en entrée les résultats obtenus à partir de la fonction get_forecast et produit une sortie visuelle avec deux pages de représentation graphique, une page pour les graphiques sur les températures, donc température et température ressentie et une autres pages concernant les précipitations et les probabilités de précipitations.Les graphiques sont générés à partir des données de prévisions météorologiques pour un emplacement spécifié.</p>
-<p>Dans notre exemple, les graphiques nous donne des courbes de prévision pour le site olympique “Parc des princes” par jour du 9 au 15 mars 2024.</p>
 
 
 </section>

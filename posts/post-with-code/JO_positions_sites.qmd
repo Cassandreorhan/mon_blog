@@ -111,9 +111,9 @@ knitr::kable(head(unique(liste_sport)))
 
 mots_cles_paralympiques <- c("Para", "fauteuil", "assis", "Goalball", "Cécifoot", "Boccia")
 
-sports_paralympiques <- unique(liste_sport[grep(paste(mots_cles_paralympiques, collapse = "|"), liste_sport, ignore.case = TRUE)])
+sports_paralympiques <- liste_sport[grep(paste(mots_cles_paralympiques, collapse = "|"), liste_sport, ignore.case = TRUE)]
 
-knitr::kable(sports_paralympiques)
+knitr::kable(unique(sports_paralympiques))
 ```
 
 Ainsi, sur un total de 60 sports répertoriés, nous avons identifié 21 disciplines paralympiques.

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Cassandre Orhan">
-<meta name="dcterms.date" content="2024-03-09">
+<meta name="dcterms.date" content="2024-03-06">
 
 <title>Mon blog - Les jeux olympiques : position des sites</title>
 <style>
@@ -119,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../about.html" rel="" target="">
- <span class="menu-text">Presentation</span></a>
+ <span class="menu-text">Présentation</span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools">
@@ -149,7 +149,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 9, 2024</p>
+        <p class="date">March 6, 2024</p>
       </div>
     </div>
     
@@ -444,7 +444,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="discipline-paralympiques">Discipline paralympiques</h2>
 <p>Ensuite, nous avons cherché à déterminer quelles disciplines paralympiques seront présentées aux Jeux Olympiques. Pour ce faire, nous avons examiné les sports présentés, puis nous avons filtré les données en utilisant des mots-clés associés aux sports paralympiques, tels que “para” ou “fauteuil”. Cette démarche nous permettra d’identifier les sites et les installations qui accueilleront des disciplines paralympiques,</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>liste_sport<span class="ot">&lt;-</span>(<span class="fu">unlist</span>(<span class="fu">strsplit</span>(data_ex<span class="sc">$</span>sports, <span class="st">","</span>))) </span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>liste_sport<span class="ot">&lt;-</span>(<span class="fu">unlist</span>(<span class="fu">strsplit</span>(data_ex<span class="sc">$</span>sports, <span class="st">","</span>)))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">head</span>(<span class="fu">unique</span>(liste_sport)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -476,11 +476,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mots_cles_paralympiques <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Para"</span>, <span class="st">"para"</span>, <span class="st">"fauteuil"</span>, <span class="st">"assis"</span>, <span class="st">"goalball"</span>, <span class="st">"cécifoot"</span>, <span class="st">"boccia"</span>)</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>mots_cles_paralympiques <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Para"</span>, <span class="st">"fauteuil"</span>, <span class="st">"assis"</span>, <span class="st">"Goalball"</span>, <span class="st">"Cécifoot"</span>, <span class="st">"Boccia"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sports_paralympiques <span class="ot">&lt;-</span> liste_sport[<span class="fu">grep</span>(<span class="fu">paste</span>(mots_cles_paralympiques, <span class="at">collapse =</span> <span class="st">"|"</span>), liste_sport, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)]</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(sports_paralympiques)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">unique</span>(sports_paralympiques))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -541,13 +541,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Para powerlifting</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Goalball</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">Para équitation</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Para athlétisme</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Escrime fauteuil</td>
@@ -562,7 +556,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 </div>
-<p>Ainsi, sur un total de 60 sports répertoriés, nous avons identifié 23 disciplines paralympiques.</p>
+<p>Ainsi, sur un total de 60 sports répertoriés, nous avons identifié 21 disciplines paralympiques.</p>
 </section>
 <section id="site-avec-le-plus-de-disciplines-différentes" class="level2">
 <h2 class="anchored" data-anchor-id="site-avec-le-plus-de-disciplines-différentes">Site avec le plus de disciplines différentes</h2>
@@ -923,11 +917,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 </div>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>distance_min<span class="ot">&lt;-</span><span class="fu">min</span>(distances[distances <span class="sc">&gt;</span> <span class="dv">0</span>])</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>plus_proches <span class="ot">&lt;-</span> <span class="fu">which</span>(distances <span class="sc">==</span> distance_min, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>site_1_proche<span class="ot">&lt;-</span> data_ex[plus_proches[<span class="dv">1</span>,<span class="dv">1</span>],<span class="st">"nom"</span>] </span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_1_proche)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(distance_min)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">91.63529</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plus_proches <span class="ot">&lt;-</span> <span class="fu">which</span>(distances <span class="sc">==</span> distance_min, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>site_1_proche<span class="ot">&lt;-</span> data_ex[plus_proches[<span class="dv">1</span>,<span class="dv">1</span>],<span class="st">"nom"</span>] </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_1_proche)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -942,8 +950,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>site_2_proche <span class="ot">&lt;-</span>data_ex[plus_proches[<span class="dv">1</span>,<span class="dv">2</span>],<span class="st">"nom"</span>]</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_2_proche)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>site_2_proche <span class="ot">&lt;-</span>data_ex[plus_proches[<span class="dv">1</span>,<span class="dv">2</span>],<span class="st">"nom"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_2_proche)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -965,8 +973,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="les-deux-sites-les-plus-éloignés">Les deux sites les plus éloignés</h2>
 <p>Pour déterminer les deux sites les plus éloignés, nous utilisons toujours la matrice des distances que nous avons créée précédemment. En identifiant les distances maximales dans cette matrice, nous pouvons identifier les deux sites les plus éloignés les uns des autres.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>distance_max<span class="ot">&lt;-</span><span class="fu">max</span>(distances[distances <span class="sc">&gt;</span> <span class="dv">0</span>])</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(distance_max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>distance_max<span class="ot">&lt;-</span><span class="fu">max</span>(distances[distances <span class="sc">&gt;</span> <span class="dv">0</span>])</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(distance_max)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -981,10 +989,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plus_éloignés <span class="ot">&lt;-</span> <span class="fu">which</span>(distances <span class="sc">==</span> distance_max, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>site_1_eloigne<span class="ot">&lt;-</span> data_ex[plus_éloignés[<span class="dv">1</span>,<span class="dv">1</span>],<span class="st">"nom"</span>] </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_1_eloigne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>plus_éloignés <span class="ot">&lt;-</span> <span class="fu">which</span>(distances <span class="sc">==</span> distance_max, <span class="at">arr.ind =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>site_1_eloigne<span class="ot">&lt;-</span> data_ex[plus_éloignés[<span class="dv">1</span>,<span class="dv">1</span>],<span class="st">"nom"</span>] </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_1_eloigne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -999,8 +1007,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>site_2_eloigne <span class="ot">&lt;-</span>data_ex[plus_éloignés[<span class="dv">1</span>,<span class="dv">2</span>],<span class="st">"nom"</span>]</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_2_eloigne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>site_2_eloigne <span class="ot">&lt;-</span>data_ex[plus_éloignés[<span class="dv">1</span>,<span class="dv">2</span>],<span class="st">"nom"</span>]</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(site_2_eloigne)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -1022,11 +1030,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="barycentre-de-lensemble-des-sites">Barycentre de l’ensemble des sites</h2>
 <p>Dans l’objectif d’investir dans les biens immobiliers, il faut calculer la longitude et la latitude moyennes des sites pour optimiser les recherches immobilières en vue des Jeux Olympiques. En obtenant ces coordonnées moyennes, vous pouvez déterminer le point central autour duquel se situent les sites. Cette approche peut vous aider à maximiser les opportunités d’investissement en vous concentrant sur des emplacements stratégiques qui offrent une accessibilité optimale aux sites olympiques et paralympiques.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>longitude_moy<span class="ot">&lt;-</span><span class="fu">mean</span>(data_ex<span class="sc">$</span>longitude)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>latitude_moy<span class="ot">&lt;-</span><span class="fu">mean</span>(data_ex<span class="sc">$</span>latitude)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>barycentre <span class="ot">&lt;-</span> tidygeocoder<span class="sc">::</span><span class="fu">reverse_geo</span>(longitude_moy,latitude_moy)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(barycentre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>longitude_moy<span class="ot">&lt;-</span><span class="fu">mean</span>(data_ex<span class="sc">$</span>longitude)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>latitude_moy<span class="ot">&lt;-</span><span class="fu">mean</span>(data_ex<span class="sc">$</span>latitude)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>barycentre <span class="ot">&lt;-</span> tidygeocoder<span class="sc">::</span><span class="fu">reverse_geo</span>(longitude_moy,latitude_moy)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(barycentre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
