@@ -1,1 +1,108 @@
-/* css styles */
+/* Général : police, couleurs et mise en page */
+body {
+    font-family: Arial, sans-serif; /* Choisis une police claire et moderne */
+    background-color: #f4f4f9; /* Un fond clair pour un design épuré */
+    color: #333; /* Couleur du texte principale (gris foncé pour la lisibilité) */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* En-tête */
+header {
+    background-color: #4CAF50; /* Vert pour une touche professionnelle */
+    color: white; /* Texte en blanc pour contraster */
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+/* Navigation */
+nav {
+    background-color: #333; /* Fond sombre pour la navigation */
+    overflow: hidden;
+}
+
+nav a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #ddd; /* Couleur au survol */
+    color: black;
+}
+
+/* Section principale : introduction ou présentation */
+main {
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+main h2 {
+    color: #4CAF50;
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+main p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+/* Section des projets ou des réalisations */
+.project-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.project-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.project-card:hover {
+    transform: scale(1.05); /* Effet de zoom sur la carte au survol */
+}
+
+.project-card h3 {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.project-card p {
+    font-size: 1em;
+    color: #555;
+}
+
+/* Pied de page */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1em;
+}
+
