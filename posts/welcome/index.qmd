@@ -1,9 +1,0 @@
----
-title: "Introduction"
-author: "Cassandre Orhan"
-date: "2024-03-05"
----
-
-# Introduction
-
-Ce blog est composé d'article comprenant un ensemble d'informations sur la position des sites olympiques, les médailles des athlètes, la météo sur les sites et bien d'autre informations analysées avec des fonctions et un package sur Rstudio.
