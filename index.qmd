@@ -1,5 +1,5 @@
 ---
-title: "Les articles"
+title: "Mes projets"
 listing:
   contents: posts
   sort: "date desc"
@@ -13,7 +13,7 @@ title-block-banner: true
 
 # Bienvenue !
 
-![](Logo_IAE_vertical.jpg){fig-align="center" width="6cm"}
+![](Logo_IAE_vertical.jpg){fig-align="center" width="6.9cm"}
 
 Bienvenue sur mon blog où je partage mes projets. N'hésitez pas à explorer les différents articles.
 
